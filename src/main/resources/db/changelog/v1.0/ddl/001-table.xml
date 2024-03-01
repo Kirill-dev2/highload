@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+  <changeSet id="1" author="Kirill.Kornakov@com">
+    <!--USERS-->
+    <createTable tableName="users" remarks="Пользователи">
+      <column name="id" type="varchar(36)" remarks="Идентификатор пользователя">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="created" type="timestamp" remarks="Дата время создания">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated" type="timestamp" remarks="Дата время обновления"/>
+      <column name="firstname" type="varchar(50)" remarks="Имя пользователя">
+        <constraints nullable="false"/>
+      </column>
+      <column name="secondname" type="varchar(50)" remarks="Фамилия пользователя">
+        <constraints nullable="false"/>
+      </column>
+      <column name="email" type="varchar(254)" remarks="Имя пользователя">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="gender" type="varchar(7)" remarks="Пол пользователя">
+        <constraints nullable="false"/>
+      </column>
+      <column name="birthdate" type="date" remarks="Дата рождения пользователя">
+        <constraints nullable="false"/>
+      </column>
+      <column name="biography" type="varchar" remarks="Хобби, интересы и т.п."/>
+      <column name="city" type="varchar(40)" remarks="Город"/>
+      <column name="password" type="varchar(60)" remarks="Пароль пользователя">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+  </changeSet>
+</databaseChangeLog>
