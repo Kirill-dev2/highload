@@ -1,0 +1,63 @@
+{
+	"info": {
+		"_postman_id": "1fa4bc4f-4a1b-49d8-abf3-781e313255a9",
+		"name": "otus_highload",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"first_name\": \"Фёдор\",\r\n  \"second_name\": \"Корнев\",\r\n  \"email\": \"asd1@mail.com2\",\r\n  \"gender\": \"Мужской\",\r\n  \"birthdate\": \"2020-05-25\",\r\n  \"biography\": \"asd asd asd\",\r\n  \"city\": \"Москва\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/user/register"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"asd1@mail.com2\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/login"
+			},
+			"response": []
+		},
+		{
+			"name": "user/get/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/user/get/9c2069bb-2cce-4b05-adf3-566e6ca0ce56"
+			},
+			"response": []
+		},
+		{
+			"name": "user/get/{id} sql injection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/user/get/9c2069bb-2cce-4b05-adf3-566e6ca0ce56 or 1= 1"
+			},
+			"response": []
+		}
+	]
+}
