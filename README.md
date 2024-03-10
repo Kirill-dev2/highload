@@ -19,5 +19,5 @@
 * /user/register
 * /user/get/{id}
 
-### Postman-коллекциz
-see documentation [here](./postman_collection.json)
+### Postman-коллекция
+Postman-коллекция располагается в корне проекта [Postman-коллекция](./postman_collection.json)
