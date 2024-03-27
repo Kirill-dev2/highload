@@ -12,7 +12,7 @@
 
   <groupId>com.otus</groupId>
   <artifactId>highload</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <name>highload</name>
 
   <properties>
@@ -71,9 +71,13 @@
       <artifactId>jjwt</artifactId>
       <version>0.12.5</version>
     </dependency>
+    <dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>5.9</version>
+    </dependency>
 
-
-    <!--    TETS-->
+    <!--    TEST-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>

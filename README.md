@@ -18,6 +18,7 @@
 * /login
 * /user/register
 * /user/get/{id}
+* /user/search/
 
 ### Postman-коллекция
 Postman-коллекция располагается в корне проекта [Postman-коллекция](./postman_collection.json)

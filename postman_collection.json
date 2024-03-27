@@ -58,6 +58,36 @@
 				"url": "http://localhost:8080/user/get/9c2069bb-2cce-4b05-adf3-566e6ca0ce56 or 1= 1"
 			},
 			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/search?first_name=Фё&last_name=Корн",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"search"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "Фё"
+						},
+						{
+							"key": "last_name",
+							"value": "Корн"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
