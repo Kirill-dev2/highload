@@ -57,14 +57,11 @@ public abstract class AbstractRepository<E> {
 
   public boolean existBy(Map<String, Object> conditionWithArgs) {
     var condition = conditionWithArgs.keySet().toArray(String[]::new);
-    var sql =
-        String.format(
-            "SELECT count(*) FROM %s t WHERE %s;",
-            tableName, Arrays.stream(condition).map(c -> c.toLowerCase() + "= ?").collect(AND));
+    var sql = countStatement(condition);
     var args = conditionWithArgs.values().toArray();
     var count = jdbcTemplate.queryForObject(sql, Long.class, args);
     log.debug("count {} after execute SQL [{}] with param {}", count, sql, args);
-    return count > 0;
+    return count != null && count > 0;
   }
 
   private String selectStatement(String table, Set<String> fields, String... condition) {
@@ -81,6 +78,12 @@ public abstract class AbstractRepository<E> {
         tableName,
         fields.stream().map(String::toLowerCase).collect(COLLECTOR),
         fields.stream().map(f -> ":" + f).collect(COLLECTOR));
+  }
+
+  private String countStatement(String... condition) {
+    return String.format(
+        "SELECT count(*) FROM %s t WHERE %s;",
+        tableName, Arrays.stream(condition).map(c -> c.toLowerCase() + "= ?").collect(AND));
   }
 
   private int insert(String sql, E entity) {
