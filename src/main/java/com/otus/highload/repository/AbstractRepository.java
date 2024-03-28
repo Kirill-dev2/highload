@@ -3,6 +3,7 @@ package com.otus.highload.repository;
 import com.otus.highload.dao.Table;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -41,7 +42,7 @@ public abstract class AbstractRepository<E> {
   }
 
   protected E findBy(Set<String> fields, Map<String, Object> conditionWithArgs) {
-    var condition = conditionWithArgs.keySet().toArray(String[]::new);
+    var condition = conditionWithArgs.keySet();
     var sql = selectStatement(tableName, fields, condition);
     var args = conditionWithArgs.values().toArray();
     var result = jdbcTemplate.queryForObject(sql, mapper, args);
@@ -56,7 +57,7 @@ public abstract class AbstractRepository<E> {
   }
 
   public boolean existBy(Map<String, Object> conditionWithArgs) {
-    var condition = conditionWithArgs.keySet().toArray(String[]::new);
+    var condition = conditionWithArgs.keySet();
     var sql = countStatement(condition);
     var args = conditionWithArgs.values().toArray();
     var count = jdbcTemplate.queryForObject(sql, Long.class, args);
@@ -64,12 +65,12 @@ public abstract class AbstractRepository<E> {
     return count != null && count > 0;
   }
 
-  private String selectStatement(String table, Set<String> fields, String... condition) {
+  private String selectStatement(String table, Set<String> fields, Collection<String> condition) {
     return String.format(
         "SELECT %s FROM %s WHERE %s;",
         fields.stream().map(String::toLowerCase).collect(COLLECTOR),
         table,
-        Arrays.stream(condition).map(c -> c.toLowerCase() + "= ?").collect(AND));
+        condition.stream().map(c -> c.toLowerCase() + "= ?").collect(AND));
   }
 
   private String insertStatement(String tableName, Set<String> fields) {
@@ -80,10 +81,10 @@ public abstract class AbstractRepository<E> {
         fields.stream().map(f -> ":" + f).collect(COLLECTOR));
   }
 
-  private String countStatement(String... condition) {
+  private String countStatement(Collection<String> condition) {
     return String.format(
         "SELECT count(*) FROM %s t WHERE %s;",
-        tableName, Arrays.stream(condition).map(c -> c.toLowerCase() + "= ?").collect(AND));
+        tableName, condition.stream().map(c -> c.toLowerCase() + "= ?").collect(AND));
   }
 
   private int insert(String sql, E entity) {

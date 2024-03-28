@@ -32,6 +32,10 @@ public class UserService {
     return userRepository.findById(id);
   }
 
+  public User findBy(String firstName, String secondName) {
+    return userRepository.findByFirstNameLikeAndSecondNameLike(firstName, secondName);
+  }
+
   public User verify(LoginRequest request) {
     var user = userRepository.findByEmail(request.email());
     if (!passwordEncoder.matches(request.password(), user.getPassword())) {

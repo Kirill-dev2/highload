@@ -23,6 +23,11 @@ public class UserRepository extends AbstractRepository<User> {
     return super.findBy(FIELDS, Map.of(Fields.id.name(), id));
   }
 
+  public User findByFirstNameLikeAndSecondNameLike(String firstName, String secondName) {
+    return super.findBy(
+        FIELDS, Map.of(Fields.firstName.name(), firstName, Fields.secondName.name(), secondName));
+  }
+
   public User findByEmail(String email) {
     return super.findBy(FIELDS, Map.of(Fields.email.name(), email));
   }
