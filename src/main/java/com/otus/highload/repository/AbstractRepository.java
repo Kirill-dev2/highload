@@ -4,11 +4,13 @@ import com.otus.highload.dao.Table;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -41,11 +43,22 @@ public abstract class AbstractRepository<E> {
     this.mapper = BeanPropertyRowMapper.newInstance(typeClass);
   }
 
-  protected E findBy(Set<String> fields, Map<String, Object> conditionWithArgs) {
-    var condition = conditionWithArgs.keySet();
-    var sql = selectStatement(tableName, fields, condition);
+  protected E findBy(Set<String> fields, Map<ConditionArgs, Object> conditionWithArgs) {
+    var conditions = conditionWithArgs.keySet();
+    var sql = selectStatement(tableName, fields, conditions);
     var args = conditionWithArgs.values().toArray();
     var result = jdbcTemplate.queryForObject(sql, mapper, args);
+    log.debug("result {} after execute SQL [{}] with param {}", result, sql, args);
+    return result;
+  }
+
+  protected List<E> findAllByLike(
+      Set<String> fields, Map<ConditionArgs, Object> conditionWithArgs) {
+    var conditions = conditionWithArgs.keySet();
+    var sql = likeStatement(tableName, fields, conditions);
+    var args =
+        conditionWithArgs.values().stream().map(o -> o + Condition.LIKE_PREFIX.value).toArray();
+    var result = jdbcTemplate.query(sql, mapper, args);
     log.debug("result {} after execute SQL [{}] with param {}", result, sql, args);
     return result;
   }
@@ -65,26 +78,37 @@ public abstract class AbstractRepository<E> {
     return count != null && count > 0;
   }
 
-  private String selectStatement(String table, Set<String> fields, Collection<String> condition) {
-    return String.format(
-        "SELECT %s FROM %s WHERE %s;",
-        fields.stream().map(String::toLowerCase).collect(COLLECTOR),
-        table,
-        condition.stream().map(c -> c.toLowerCase() + "= ?").collect(AND));
+  private String selectStatement(
+      String table, Set<String> fields, Collection<ConditionArgs> conditions) {
+    return "SELECT %s FROM %s WHERE %s;"
+        .formatted(
+            fields.stream().map(String::toLowerCase).collect(COLLECTOR),
+            table,
+            conditions.stream().map(c -> c.field.toLowerCase() + c.condition.value).collect(AND));
+  }
+
+  private String likeStatement(
+      String table, Set<String> fields, Collection<ConditionArgs> conditions) {
+    return "SELECT %s FROM %s WHERE %s;"
+        .formatted(
+            fields.stream().map(String::toLowerCase).collect(COLLECTOR),
+            table,
+            conditions.stream().map(c -> c.field.toLowerCase() + c.condition.value).collect(AND));
   }
 
   private String insertStatement(String tableName, Set<String> fields) {
-    return String.format(
-        "INSERT INTO %s (%s) VALUES (%s);",
-        tableName,
-        fields.stream().map(String::toLowerCase).collect(COLLECTOR),
-        fields.stream().map(f -> ":" + f).collect(COLLECTOR));
+    return "INSERT INTO %s (%s) VALUES (%s);"
+        .formatted(
+            tableName,
+            fields.stream().map(String::toLowerCase).collect(COLLECTOR),
+            fields.stream().map(f -> ":" + f).collect(COLLECTOR));
   }
 
   private String countStatement(Collection<String> condition) {
-    return String.format(
-        "SELECT count(*) FROM %s t WHERE %s;",
-        tableName, condition.stream().map(c -> c.toLowerCase() + "= ?").collect(AND));
+    return "SELECT count(*) FROM %s t WHERE %s;"
+        .formatted(
+            tableName,
+            condition.stream().map(c -> c.toLowerCase() + Condition.EQUALS.value).collect(AND));
   }
 
   private int insert(String sql, E entity) {
@@ -109,4 +133,15 @@ public abstract class AbstractRepository<E> {
             .orElseThrow(IllegalStateException::new);
     return (Class<E>) classType;
   }
+
+  @AllArgsConstructor
+  protected enum Condition {
+    EQUALS(" = ?"),
+    LIKE(" like ?"),
+    LIKE_PREFIX("%");
+
+    private final String value;
+  }
+
+  protected record ConditionArgs(Condition condition, String field) {}
 }

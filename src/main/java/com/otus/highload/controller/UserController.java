@@ -5,6 +5,7 @@ import com.otus.highload.controller.response.UserProfile;
 import com.otus.highload.dao.User;
 import com.otus.highload.service.UserService;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +38,11 @@ public class UserController {
   }
 
   @GetMapping(value = "/search")
-  public UserProfile searchBy(
+  public List<UserProfile> searchBy(
       @Validated @NotBlank @RequestParam("first_name") String firstName,
       @NotBlank @RequestParam("last_name") String secondName) {
     var user = userService.findBy(firstName, secondName);
-    return fillUserProfile(user);
+    return user.stream().map(this::fillUserProfile).toList();
   }
 
   private UserProfile fillUserProfile(User user) {
