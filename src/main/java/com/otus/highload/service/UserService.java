@@ -6,6 +6,7 @@ import com.otus.highload.dao.User;
 import com.otus.highload.exception.PasswordNotMatch;
 import com.otus.highload.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,10 @@ public class UserService {
 
   public User findById(String id) {
     return userRepository.findById(id);
+  }
+
+  public List<User> findBy(String firstName, String secondName) {
+    return userRepository.findAllByFirstNameLikeAndSecondNameLike(firstName, secondName);
   }
 
   public User verify(LoginRequest request) {

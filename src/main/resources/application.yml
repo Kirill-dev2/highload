@@ -8,6 +8,8 @@ logging:
     name: ./logs/highload.log
 
 spring:
+  profiles:
+    active: default
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
