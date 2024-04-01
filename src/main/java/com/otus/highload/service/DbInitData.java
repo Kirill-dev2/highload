@@ -5,10 +5,9 @@ import com.opencsv.bean.CsvDate;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.otus.highload.dao.User;
-import com.otus.highload.repository.UserRepository;
+import com.otus.highload.repository.UserRepositoryMaster;
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -17,7 +16,9 @@ import java.util.UUID;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +27,20 @@ import org.springframework.stereotype.Service;
 @Profile("db_init_data")
 @RequiredArgsConstructor
 public class DbInitData {
-  private final UserRepository userRepository;
+  private final UserRepositoryMaster userRepositoryMaster;
   private final PasswordEncoder passwordEncoder;
 
+  @Value("classpath:people.v2.csv")
+  private Resource peoples;
+
   @PostConstruct
-  protected void init() throws URISyntaxException, IOException {
+  protected void init() throws IOException {
     log.info("start loaded users");
 
     var strategy = new HeaderColumnNameMappingStrategy<CsvData>();
     strategy.setType(CsvData.class);
 
-    var path = Paths.get(ClassLoader.getSystemResource("people.v2.csv").toURI());
+    var path = Paths.get(peoples.getURI());
     try (var reader = Files.newBufferedReader(path)) {
       var beanLoader =
           new CsvToBeanBuilder<CsvData>(reader)
@@ -60,7 +64,7 @@ public class DbInitData {
                 user.setSecondName(name[0]);
                 var transliterate = transliterate(data.name.replace(' ', '.').toLowerCase());
                 var email = transliterate + "@mail.com";
-                for (var i = 1; userRepository.existByEmail(email); i++) {
+                for (var i = 1; userRepositoryMaster.existByEmail(email); i++) {
                   email = transliterate + i + "@mail.com";
                 }
                 user.setEmail(email);
@@ -74,7 +78,7 @@ public class DbInitData {
                 } else {
                   user.setGender("Мужской");
                 }
-                userRepository.save(user);
+                userRepositoryMaster.save(user);
               });
       log.info("users loaded {}", users.size());
     }

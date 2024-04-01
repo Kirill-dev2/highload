@@ -4,7 +4,8 @@ import com.otus.highload.controller.request.LoginRequest;
 import com.otus.highload.controller.request.RegisterUser;
 import com.otus.highload.dao.User;
 import com.otus.highload.exception.PasswordNotMatch;
-import com.otus.highload.repository.UserRepository;
+import com.otus.highload.repository.UserRepositoryMaster;
+import com.otus.highload.repository.UserRepositorySlave;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -17,28 +18,29 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-  private final UserRepository userRepository;
+  private final UserRepositoryMaster userRepositoryMaster;
+  private final UserRepositorySlave userRepositorySlave;
   private final PasswordEncoder passwordEncoder;
 
   public User createUser(RegisterUser registerUser) {
     log.debug("start create new user");
     var user = buildUser(registerUser);
 
-    userRepository.save(user);
+    userRepositoryMaster.save(user);
     log.info("created user.id [{}]", user.getId());
     return user;
   }
 
   public User findById(String id) {
-    return userRepository.findById(id);
+    return userRepositorySlave.findById(id);
   }
 
   public List<User> findBy(String firstName, String secondName) {
-    return userRepository.findAllByFirstNameLikeAndSecondNameLike(firstName, secondName);
+    return userRepositorySlave.findAllByFirstNameLikeAndSecondNameLike(firstName, secondName);
   }
 
   public User verify(LoginRequest request) {
-    var user = userRepository.findByEmail(request.email());
+    var user = userRepositoryMaster.findByEmail(request.email());
     if (!passwordEncoder.matches(request.password(), user.getPassword())) {
       log.warn("user with id {} found, but passwords not matches", user.getId());
       throw new PasswordNotMatch("user not found");

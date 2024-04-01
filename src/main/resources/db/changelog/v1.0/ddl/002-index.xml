@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+  <changeSet id="2" author="Kirill.Kornakov@com">
+    <sql>
+      CREATE
+      EXTENSION IF NOT EXISTS pg_trgm;
+
+      CREATE INDEX IF NOT EXISTS first_name_last_name_idx_gin ON users USING gin (firstname gin_trgm_ops, secondname gin_trgm_ops)
+    </sql>
+
+  </changeSet>
+</databaseChangeLog>

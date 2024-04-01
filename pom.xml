@@ -12,7 +12,7 @@
 
   <groupId>com.otus</groupId>
   <artifactId>highload</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <name>highload</name>
 
   <properties>
@@ -20,6 +20,9 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
+    <preliquibase-spring-boot-starter.version>1.5.0</preliquibase-spring-boot-starter.version>
+    <jjwt.version>0.12.5</jjwt.version>
+    <opencsv.version>5.9</opencsv.version>
   </properties>
 
   <dependencies>
@@ -44,7 +47,7 @@
     <dependency>
       <groupId>net.lbruun.springboot</groupId>
       <artifactId>preliquibase-spring-boot-starter</artifactId>
-      <version>1.5.0</version>
+      <version>${preliquibase-spring-boot-starter.version}</version>
     </dependency>
     <dependency>
       <groupId>org.liquibase</groupId>
@@ -69,24 +72,18 @@
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
-      <version>0.12.5</version>
+      <version>${jjwt.version}</version>
     </dependency>
     <dependency>
       <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId>
-      <version>5.9</version>
+      <version>${opencsv.version}</version>
     </dependency>
 
     <!--    TEST-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jeasy</groupId>
-      <artifactId>easy-random-core</artifactId>
-      <version>4.3.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
