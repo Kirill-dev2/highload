@@ -48,14 +48,14 @@ pg_basebackup --host=db-master --username=repluser --pgdata=/var/lib/postgresql/
 
 
 ### Замеряем нагрузку на мастере до перевода запросов на слейв
-Запускаем нагрузочный тест [(JMeter)](otus_highload_test_plan.jmx)
+Запускаем нагрузочный тест [(JMeter)](jmeter/otus_highload_test_plan.jmx)
 ![before.png](before_replica%2Fbefore.png)
 ![before_1.png](before_replica%2Fbefore_1.png)
 ![before_2.png](before_replica%2Fbefore_2.png)
 ![before_3.png](before_replica%2Fbefore_3.png)
 
 ### Замеряем нагрузку на мастере после перевода запросов на слейв
-Запускаем нагрузочный тест [(JMeter)](otus_highload_test_plan.jmx)
+Запускаем нагрузочный тест [(JMeter)](jmeter/otus_highload_test_plan.jmx)
 ![after.png](after_replica%2Fafter.png)
 ![after_1.png](after_replica%2Fafter_1.png)
 ![after_2.png](after_replica%2Fafter_2.png)
@@ -64,7 +64,7 @@ pg_basebackup --host=db-master --username=repluser --pgdata=/var/lib/postgresql/
 
 ### Настроить два слейва и один мастер (Описание сокращенно, без точных команд).
 1) Сделал дополнительную копию слейва `db-slave-2` (по аналогии `db-slave`)
-2) Запустил программу с флагом генерации тестовых данных. [(JMeter)](otus_highload_test_plan.jmx)
+2) Запустил программу с флагом генерации тестовых данных. [(JMeter)](jmeter/otus_highload_test_plan.jmx)
 3) Завершил работы мастера `db-master` командой `docker stop db-master`
 4) Запромоутил `db-slave-2`. Pg_promote()
 5) Для реплики `db-slave-2` изменил настройку чтобы мастер стал `db-slave`
