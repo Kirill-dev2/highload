@@ -1,6 +1,6 @@
 package com.otus.highload.validation;
 
-import com.otus.highload.repository.UserRepository;
+import com.otus.highload.repository.UserRepositoryMaster;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +12,12 @@ import org.hibernate.validator.constraintvalidation.HibernateConstraintValidator
 @RequiredArgsConstructor
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
-  private final UserRepository userRepository;
+  private final UserRepositoryMaster userRepositoryMaster;
 
   @Override
   public boolean isValid(String email, ConstraintValidatorContext context) {
-    if (StringUtils.isNotBlank(email) && userRepository.existByEmail(email)) {
-      context
-          .unwrap(HibernateConstraintValidatorContext.class)
-          .addMessageParameter("email", email);
+    if (StringUtils.isNotBlank(email) && userRepositoryMaster.existByEmail(email)) {
+      context.unwrap(HibernateConstraintValidatorContext.class).addMessageParameter("email", email);
       return false;
     }
 

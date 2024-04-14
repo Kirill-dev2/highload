@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+  db-master:
+    image: postgres:16-alpine
+    container_name: db-master
+    volumes:
+      - master:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+  db-slave:
+    image: postgres:16-alpine
+    container_name: db-slave
+    volumes:
+      - slave:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5433:5432"
+    depends_on:
+      - db-master
+
+  db-slave-2:
+    image: postgres:16-alpine
+    container_name: db-slave-2
+    volumes:
+      - slave-2:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5434:5432"
+    depends_on:
+      - db-master
+
+  backend-service:
+    image: highload-backend-service:0.0.3
+    container_name: backend-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db-master
+      - db-slave
+      - db-slave-2
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_MASTER_URL=jdbc:postgresql://db-master/postgres
+      - SPRING_DATASOURCE_SLAVE_URL=jdbc:postgresql://db-slave/postgres
+      - SPRING_PROFILES_ACTIVE=default
+volumes:
+  master:
+  slave:
+  slave-2:
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 192.168.192.0/20

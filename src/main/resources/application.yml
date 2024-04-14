@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: INFO
-    com.otus.highload: DEBUG
+    com.otus.highload: INFO
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
   file:
@@ -11,12 +11,27 @@ spring:
   profiles:
     active: default
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: mysecretpassword
     hikari:
       schema: social_network
+    master:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://db-master/postgres
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: masterHikariPool
+    slave:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://db-slave/postgres
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: slaveHikariPool
+
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
     enabled: true
