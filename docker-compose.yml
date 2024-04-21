@@ -37,8 +37,17 @@ services:
     depends_on:
       - db-master
 
+  redis:
+    image: redis:7.2.4-alpine3.19
+    container_name: redis-cache
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
   backend-service:
-    image: highload-backend-service:0.0.3
+    image: highload-backend-service:1.4.0
     container_name: backend-service
     build:
       context: .
@@ -49,15 +58,19 @@ services:
       - db-master
       - db-slave
       - db-slave-2
+      - redis
     environment:
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_MASTER_URL=jdbc:postgresql://db-master/postgres
-      - SPRING_DATASOURCE_SLAVE_URL=jdbc:postgresql://db-slave/postgres
       - SPRING_PROFILES_ACTIVE=default
+      - DB_MASTER_URL=jdbc:postgresql://db-master/postgres
+      - DB_SLAVE_URL=jdbc:postgresql://db-slave/postgres
+      - REDIS_HOST=redis-cache
+      - REDIS_PORT=6379
 volumes:
   master:
   slave:
   slave-2:
+  redis:
 
 networks:
   default:

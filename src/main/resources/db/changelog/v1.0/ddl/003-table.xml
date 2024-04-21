@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+  <changeSet id="3" author="Kirill.Kornakov@com">
+    <!--FRIENDS-->
+    <createTable tableName="friends" remarks="Друзья ползователя">
+      <column name="userid" type="varchar(36)" remarks="Идентификатор пользователя">
+        <constraints nullable="false" foreignKeyName="friends_users_fk_1" references="users(id)"/>
+      </column>
+      <column name="friendid" type="varchar(36)" remarks="Идентификатор пользователя друга">
+        <constraints nullable="false" foreignKeyName="friends_users_fk_2" references="users(id)"/>
+      </column>
+      <column name="created" type="timestamp" remarks="Дата время создания">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <addPrimaryKey tableName="friends" columnNames="userid, friendid"/>
+  </changeSet>
+</databaseChangeLog>
