@@ -15,7 +15,7 @@ spring:
       schema: social_network
     master:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://db-master/postgres
+      jdbc-url: ${DB_MASTER_URL:jdbc:postgresql://127.0.0.1:5432/postgres}
       username: postgres
       password: mysecretpassword
       schema: ${spring.datasource.hikari.schema}
@@ -24,7 +24,7 @@ spring:
       pool-name: masterHikariPool
     slave:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://db-slave/postgres
+      jdbc-url: ${DB_SLAVE_URL:jdbc:postgresql://127.0.0.1:5433/postgres}
       username: postgres
       password: mysecretpassword
       schema: ${spring.datasource.hikari.schema}
@@ -37,3 +37,11 @@ spring:
     enabled: true
     default-schema: ${spring.datasource.hikari.schema}
     liquibase-schema: ${spring.datasource.hikari.schema}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+
+token:
+  signing:
+    public-key: af9ec928-f0b9-4293-81fb-615e2c1b2ebd

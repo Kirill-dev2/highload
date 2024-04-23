@@ -35,6 +35,14 @@ public class UserService {
     return userRepositorySlave.findById(id);
   }
 
+  public boolean existByEmail(String email) {
+    return userRepositorySlave.existByEmail(email);
+  }
+
+  public boolean existById(String id) {
+    return userRepositorySlave.existById(id);
+  }
+
   public List<User> findBy(String firstName, String secondName) {
     return userRepositorySlave.findAllByFirstNameLikeAndSecondNameLike(firstName, secondName);
   }

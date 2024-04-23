@@ -35,12 +35,11 @@ public class UserRepositorySlave extends AbstractRepository<User> {
             secondName));
   }
 
-  public User findByEmail(String email) {
-    return super.findBy(
-        FIELDS, Map.of(new ConditionArgs(Condition.EQUALS, Fields.email.name()), email));
-  }
-
   public boolean existByEmail(String email) {
     return super.existBy(Map.of(Fields.email.name(), email));
+  }
+
+  public boolean existById(String id) {
+    return super.existBy(Map.of(Fields.id.name(), id));
   }
 }

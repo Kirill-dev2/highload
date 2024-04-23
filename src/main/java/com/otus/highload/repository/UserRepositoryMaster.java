@@ -3,7 +3,6 @@ package com.otus.highload.repository;
 import com.otus.highload.dao.User;
 import com.otus.highload.dao.User.Fields;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,20 +18,6 @@ public class UserRepositoryMaster extends AbstractRepository<User> {
 
   UserRepositoryMaster(@Qualifier("masterJdbcTemplate") JdbcTemplate jdbcTemplate) {
     super(jdbcTemplate, FIELDS);
-  }
-
-  public User findById(String id) {
-    return super.findBy(FIELDS, Map.of(new ConditionArgs(Condition.EQUALS, Fields.id.name()), id));
-  }
-
-  public List<User> findAllByFirstNameLikeAndSecondNameLike(String firstName, String secondName) {
-    return super.findAllByLike(
-        FIELDS,
-        Map.of(
-            new ConditionArgs(Condition.LIKE, Fields.firstName.name()),
-            firstName,
-            new ConditionArgs(Condition.LIKE, Fields.secondName.name()),
-            secondName));
   }
 
   public User findByEmail(String email) {
