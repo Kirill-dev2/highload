@@ -7,6 +7,7 @@ import com.otus.highload.dao.Post;
 import com.otus.highload.security.AuthenticationUtil;
 import com.otus.highload.service.PostCacheService;
 import com.otus.highload.service.PostService;
+import com.otus.highload.service.StompService;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
 import java.util.Map;
@@ -31,18 +32,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
   private final PostCacheService cacheService;
   private final PostService postService;
+  private final StompService stompService;
 
   @PostMapping("/create")
   public Map<String, String> create(@Validated @RequestBody CreatePostRequest request) {
     var userId = AuthenticationUtil.extractUserId();
-    var post = postService.create(userId, request);
+    var post = postService.create(userId, request.text());
     cacheService.invalidate(userId);
+    stompService.sendToFriends(userId, buildResponse(post));
     return Map.of("post_id", post.getId());
   }
 
   @PutMapping("/update")
   public ResponseEntity<String> update(@Validated @RequestBody UpdatePostRequest request) {
-    postService.updateBy(request);
+    var userId = AuthenticationUtil.extractUserId();
+    postService.updateBy(userId, request);
     return ResponseEntity.ok("Успешно изменен пост");
   }
 
@@ -54,7 +58,8 @@ public class PostController {
 
   @GetMapping("/get/{id}")
   public PostResponse get(@PathVariable(name = "id") String id) {
-    var post = postService.findBy(id);
+    var userId = AuthenticationUtil.extractUserId();
+    var post = postService.findBy(userId, id);
     return buildResponse(post);
   }
 
@@ -75,6 +80,6 @@ public class PostController {
   }
 
   private PostResponse buildResponse(Post post) {
-    return new PostResponse(post.getId(), post.getText(), post.getToUser());
+    return new PostResponse(post.getId(), post.getText(), post.getUserId());
   }
 }

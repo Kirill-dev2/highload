@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "1fa4bc4f-4a1b-49d8-abf3-781e313255a9",
 		"name": "otus_highload",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10021355"
 	},
 	"item": [
 		{
@@ -12,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"first_name\": \"Фёдор\",\r\n  \"second_name\": \"Корнев\",\r\n  \"email\": \"asd1@mail7.com\",\r\n  \"gender\": \"Мужской\",\r\n  \"birthdate\": \"2020-05-25\",\r\n  \"biography\": \"asd asd asd\",\r\n  \"city\": \"Москва\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
+					"raw": "{\r\n  \"first_name\": \"Фёдор\",\r\n  \"second_name\": \"Корнев\",\r\n  \"email\": \"asd1@mail5.com\",\r\n  \"gender\": \"Мужской\",\r\n  \"birthdate\": \"2020-05-25\",\r\n  \"biography\": \"asd asd asd\",\r\n  \"city\": \"Москва\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -36,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"asd1@mail.com21221231\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
+					"raw": "{\r\n  \"email\": \"asd1@mail.com\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -132,13 +133,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4YWEwOWNiYS02ZjVlLTRlYWQtODJiZS01MDMwYzVhNjg1NGUiLCJzdWIiOiIyM2EwMTFjMy01Zjg0LTQ1ODAtYWNmNC1mOGQ5ODdkMzc3MmYiLCJpYXQiOjE3MTM4Mjc2OTcsImV4cCI6MTcxMzgzMTI5NywidXNlci1pZCI6IjIzYTAxMWMzLTVmODQtNDU4MC1hY2Y0LWY4ZDk4N2QzNzcyZiIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0.9hELdi-alTg_Uvxy8AOr8sYvHvch5UddDr0auXeL8fE",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjMjI3NGE5Yy0yNTJmLTQ0ZjgtYTU5NC0yZGNiMjNjMDhkNTYiLCJzdWIiOiI3OTNmZTYzYy00MjQ5LTQ5MGItOTlmMi1iMmRhMzVmMTliNTAiLCJpYXQiOjE3MTQzMzgxNjAsImV4cCI6MTcxNDM0MTc2MCwidXNlci1pZCI6Ijc5M2ZlNjNjLTQyNDktNDkwYi05OWYyLWIyZGEzNWYxOWI1MCIsInJlbW90ZS1hZGRyZXNzIjoiMTkyLjE2OC4xOTIuMSJ9.qutI_X1GjUcvu6AYCzjKFCUm7WmvfF8zRSoTflzbNgA",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"asd123\",\r\n    \"author_user_id\" : \"34778cca-0710-4e8c-b45b-404f84d18637\"\r\n}",
+					"raw": "{\r\n    \"text\": \"asd123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -210,7 +211,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2NjdkMzNjYy03NmExLTRlNjQtYjJkZi00ODQ4MTI2NjkyY2UiLCJzdWIiOiIzNDc3OGNjYS0wNzEwLTRlOGMtYjQ1Yi00MDRmODRkMTg2MzciLCJpYXQiOjE3MTM4MzExNjUsImV4cCI6MTcxMzgzNDc2NSwidXNlci1pZCI6IjM0Nzc4Y2NhLTA3MTAtNGU4Yy1iNDViLTQwNGY4NGQxODYzNyIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0._a5tU4aLT_Heri1QAcrHiUYYikf8WlbXrgxGcvAt8NQ",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxODgyMmVhNy05NzVjLTQyNGYtODhjNi05MTRlMmQ3MDY2ZmYiLCJzdWIiOiIwMTU3OGE0NS1iZDJhLTQ5NzEtODU3YS03YTg0Yzg5MDcxNGMiLCJpYXQiOjE3MTQzMjgwNjgsImV4cCI6MTcxNDMzMTY2OCwidXNlci1pZCI6IjAxNTc4YTQ1LWJkMmEtNDk3MS04NTdhLTdhODRjODkwNzE0YyIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0.mlyBsOMrJLhgr6rx1GIK7UKksMFIfvF22WkLmn1iLsU",
 						"type": "text"
 					}
 				],

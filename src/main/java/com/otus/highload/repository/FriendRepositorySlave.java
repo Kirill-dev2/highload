@@ -3,6 +3,7 @@ package com.otus.highload.repository;
 import com.otus.highload.dao.Friend;
 import com.otus.highload.dao.Friend.Fields;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,15 @@ public class FriendRepositorySlave extends AbstractRepository<Friend> {
         "count {} after execute SQL [{}] with param {}",
         count,
         sql,
-        new Object[] {userId, friendId, friendId, userId});
+        userId,
+        friendId,
+        friendId,
+        userId);
     return count != null && count > 0;
+  }
+
+  public List<Friend> findAllUserId(String userId) {
+    var sql = "SELECT * FROM " + tableName + " WHERE friendId = ? OR userId = ?;";
+    return jdbcTemplate.query(sql, mapper, userId, userId);
   }
 }

@@ -6,6 +6,7 @@ docker exec -it db-master psql -U postgres -c "CREATE ROLE repluser WITH login r
 docker exec -it db-master bash -c "echo 'wal_level = replica
 max_wal_senders = 4
 max_replication_slots = 4
+wal_keep_size = 32
 hot_standby = on
 hot_standby_feedback' = on >> /var/lib/postgresql/data/postgresql.conf"
 

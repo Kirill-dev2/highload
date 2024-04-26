@@ -18,13 +18,9 @@
         <constraints nullable="false"/>
       </column>
       <column name="updated" type="timestamp" remarks="Дата время обновления"/>
-      <column name="fromuser" type="varchar(36)"
+      <column name="userid" type="varchar(36)"
         remarks="Идентификатор пользователя кто создал пост">
         <constraints nullable="false" foreignKeyName="posts_users_fk" references="users(id)"/>
-      </column>
-      <column name="touser" type="varchar(36)"
-        remarks="Идентификатор пользователя кому был создан пост">
-        <constraints nullable="false" foreignKeyName="posts_users_fk_2" references="users(id)"/>
       </column>
     </createTable>
   </changeSet>

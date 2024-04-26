@@ -6,6 +6,7 @@ import com.otus.highload.exception.UserNotFound;
 import com.otus.highload.repository.FriendRepositoryMaster;
 import com.otus.highload.repository.FriendRepositorySlave;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,9 @@ public class FriendService {
     friend.setUserId(userId);
     friend.setFriendId(friendId);
     return friend;
+  }
+
+  public List<Friend> findAllFriendBy(String userId) {
+    return friendRepositorySlave.findAllUserId(userId);
   }
 }
