@@ -40,10 +40,12 @@ public class TokenProvider {
   }
 
   public Object determinateUserId(HttpServletRequest request) {
-    var token = request.getHeader(HEADER_NAME);
-    if (StringUtils.isEmpty(token)) {
-      throw new AccessDeniedException("absent public-key");
+    var headerToken = request.getHeader(HEADER_NAME);
+    var parameterToken = request.getParameter(HEADER_NAME);
+    if (StringUtils.isEmpty(headerToken) && StringUtils.isEmpty(parameterToken)) {
+      throw new AccessDeniedException("absent token");
     }
+    var token = StringUtils.isNotEmpty(headerToken) ? headerToken : parameterToken;
 
     return Jwts.parser()
         .verifyWith(Keys.hmacShaKeyFor(publicKey.getBytes(StandardCharsets.UTF_8)))

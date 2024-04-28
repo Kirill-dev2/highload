@@ -12,6 +12,5 @@ public class Post {
   private LocalDateTime created;
   private LocalDateTime updated;
   private String text;
-  private String fromUser;
-  private String toUser;
+  private String userId;
 }

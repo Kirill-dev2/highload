@@ -3,6 +3,8 @@ package com.otus.highload.service;
 import com.otus.highload.controller.response.PostResponse;
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PostCacheService {
+  private final FriendService friendService;
   private final RedisTemplate<String, List<PostResponse>> redisTemplate;
 
   public List<PostResponse> getPosts(String userId) {
@@ -31,7 +34,15 @@ public class PostCacheService {
   }
 
   public void invalidate(String userId) {
-    var delete = redisTemplate.delete(userId);
-    log.debug("result invalidate {}", delete);
+    var friends = friendService.findAllFriendBy(userId);
+    var stream = friends.size() > 500 ? friends.parallelStream() : friends.stream();
+    stream
+        .flatMap(f -> Stream.of(f.getUserId(), f.getFriendId()))
+        .collect(Collectors.toSet())
+        .forEach(
+            id -> {
+              var delete = redisTemplate.delete(id);
+              log.debug("result invalidate {}", delete);
+            });
   }
 }

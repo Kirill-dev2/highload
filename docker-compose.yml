@@ -46,8 +46,16 @@ services:
     volumes:
       - redis:/data
 
+  rabbitmq:
+    image: rabbitmq:3.13.1-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+
   backend-service:
-    image: highload-backend-service:1.4.0
+    image: highload-backend-service:1.5.0
     container_name: backend-service
     build:
       context: .
@@ -59,6 +67,7 @@ services:
       - db-slave
       - db-slave-2
       - redis
+      - rabbitmq
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=default
@@ -66,6 +75,10 @@ services:
       - DB_SLAVE_URL=jdbc:postgresql://db-slave/postgres
       - REDIS_HOST=redis-cache
       - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_PORT=61613
 volumes:
   master:
   slave:

@@ -5,6 +5,4 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CreatePostRequest(
-    @JsonProperty("text") @NotBlank String text,
-    @JsonProperty("author_user_id") @NotBlank String toUser) {}
+public record CreatePostRequest(@JsonProperty("text") @NotBlank String text) {}

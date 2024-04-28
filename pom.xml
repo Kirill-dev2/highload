@@ -12,7 +12,7 @@
 
   <groupId>com.otus</groupId>
   <artifactId>highload</artifactId>
-  <version>1.4.0</version>
+  <version>1.5.0</version>
   <name>highload</name>
 
   <properties>
@@ -45,6 +45,14 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.projectreactor.netty</groupId>
+      <artifactId>reactor-netty-http</artifactId>
     </dependency>
 
     <!--    DB-->
