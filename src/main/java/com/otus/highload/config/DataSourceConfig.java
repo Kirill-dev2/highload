@@ -36,4 +36,15 @@ public class DataSourceConfig {
   public JdbcTemplate slaveJdbcTemplate(@Qualifier("slaveDataSource") DataSource dataSource) {
     return new JdbcTemplate(dataSource);
   }
+
+  @Bean("shardingDataSource")
+  @ConfigurationProperties("spring.datasource.sharding")
+  public DataSource shardingDataSource() {
+    return DataSourceBuilder.create().type(HikariDataSource.class).build();
+  }
+
+  @Bean("shardingJdbcTemplate")
+  public JdbcTemplate shardingJdbcTemplate(@Qualifier("shardingDataSource") DataSource dataSource) {
+    return new JdbcTemplate(dataSource);
+  }
 }

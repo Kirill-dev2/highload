@@ -84,6 +84,17 @@ public abstract class AbstractRepository<E> {
     return result;
   }
 
+  protected List<E> findAllBy(Set<String> fields, Map<ConditionArgs, Object> conditionWithArgs) {
+    var conditions = conditionWithArgs.keySet();
+    var sql =
+        sqlCache.computeIfAbsent(
+            "findAllBy_" + conditions, k -> selectStatement(tableName, fields, conditions));
+    var args = conditionWithArgs.values().toArray();
+    var result = jdbcTemplate.query(sql, mapper, args);
+    log.debug("result {} after execute SQL [{}] with param {}", result, sql, args);
+    return result;
+  }
+
   protected List<E> findAllByLike(
       Set<String> fields, Map<ConditionArgs, Object> conditionWithArgs) {
     var conditions = conditionWithArgs.keySet();
