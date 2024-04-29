@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: INFO
-    com.otus.highload: INFO
+    com.otus.highload: DEBUG
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
   file:
@@ -31,6 +31,15 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: slaveHikariPool
+    sharding:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ${SHARDING_URL:jdbc:postgresql://127.0.0.1:5435/postgres}
+      username: postgres
+      password: mysecretpassword
+      schema: chat
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: chatHikariPool
 
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
