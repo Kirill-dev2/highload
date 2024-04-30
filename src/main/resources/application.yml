@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: INFO
-    com.otus.highload: DEBUG
+    com.otus.highload: INFO
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
   file:
@@ -40,6 +40,9 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: chatHikariPool
+  datasource-tarantool:
+    host: ${TARANTOOL_HOST:localhost}
+    port: ${TARANTOOL_PORT:3301}
 
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
