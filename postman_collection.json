@@ -239,6 +239,45 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/dialog/{user_id}/list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3YjdkYjE3ZS02OWFiLTQ1ZjItYTBhOC02MWZjYjk1ZDZlZmYiLCJzdWIiOiIwMTU3OGE0NS1iZDJhLTQ5NzEtODU3YS03YTg0Yzg5MDcxNGMiLCJpYXQiOjE3MTQ0MzM1MDIsImV4cCI6MTcxNDQzNzEwMiwidXNlci1pZCI6IjAxNTc4YTQ1LWJkMmEtNDk3MS04NTdhLTdhODRjODkwNzE0YyIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0.mP-qRuXweoOlLauY7ccXpBLxDKDo9FfHNDPSLxst18E",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/dialog/793fe63c-4249-490b-99f2-b2da35f19b50/list"
+			},
+			"response": []
+		},
+		{
+			"name": "dialog/{user_id}/send",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZjY0N2M2Yi01MzRhLTRiYjUtYWE4Ni01MDE2MDU3MjIyYTQiLCJzdWIiOiI3OTNmZTYzYy00MjQ5LTQ5MGItOTlmMi1iMmRhMzVmMTliNTAiLCJpYXQiOjE3MTQ0MzM1MjQsImV4cCI6MTcxNDQzNzEyNCwidXNlci1pZCI6Ijc5M2ZlNjNjLTQyNDktNDkwYi05OWYyLWIyZGEzNWYxOWI1MCIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0.iQ433mWYg_sDjHLxRy3BBXs3ACwN_V8JrCungvNQL90",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/dialog/01578a45-bd2a-4971-857a-7a84c890714c/send"
+			},
+			"response": []
 		}
 	]
 }

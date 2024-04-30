@@ -24,6 +24,8 @@
 * /post/delete/{id}
 * /post/get/{id}
 * /post/feed
+* /dialog/{user_id}/send
+* /dialog/{user_id}/list
 
 ### Postman-коллекция
 
