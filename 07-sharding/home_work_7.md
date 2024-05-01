@@ -78,3 +78,5 @@ SELECT citus_rebalance_start();
 ```
 SELECT nodename, count(*) FROM citus_shards GROUP BY nodename;
 ```
+
+[additional link](https://github.com/a-poliakov/highload-arch-examples/tree/main/sharding/postgres)

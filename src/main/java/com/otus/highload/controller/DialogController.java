@@ -5,6 +5,7 @@ import com.otus.highload.controller.response.DialogMessage;
 import com.otus.highload.dao.Message;
 import com.otus.highload.security.AuthenticationUtil;
 import com.otus.highload.service.MessageService;
+import com.otus.highload.service.tarantool.TarantoolService;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,23 +24,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dialog")
 @RequiredArgsConstructor
 public class DialogController {
-  private final MessageService messageService;
+//  private final MessageService messageService;
+  private final TarantoolService tarantoolService;
 
   @PostMapping("/{user_id}/send")
   public ResponseEntity<String> sendMessageToUser(
       @Validated @NotBlank @PathVariable("user_id") String toUser,
       @Validated @RequestBody DialogMessageText messageText) {
     var userId = AuthenticationUtil.extractUserId();
-    messageService.create(userId, toUser, messageText.text());
+//    messageService.create(userId, toUser, messageText.text());
+    tarantoolService.save(userId, toUser, messageText.text());
     return ResponseEntity.ok("Успешно отправлено сообщение");
   }
 
   @GetMapping("/{user_id}/list")
   public List<DialogMessage> getMessages(@Validated @PathVariable("user_id") String fromUser) {
     var toUser = AuthenticationUtil.extractUserId();
-    var messages = messageService.findAllMessagesFromUserToUser(fromUser, toUser);
-    var stream = messages.size() > 500 ? messages.parallelStream() : messages.stream();
-    return stream.map(this::buildResponse).toList();
+//    var messages = messageService.findAllMessagesFromUserToUser(fromUser, toUser);
+//    var stream = messages.size() > 500 ? messages.parallelStream() : messages.stream();
+//    return stream.map(this::buildResponse).toList();
+    return tarantoolService.listMessages(fromUser, toUser);
   }
 
   private DialogMessage buildResponse(Message message) {

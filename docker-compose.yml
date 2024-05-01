@@ -109,8 +109,17 @@ services:
       PGPASSWORD: mysecretpassword
       POSTGRES_HOST_AUTH_METHOD: trust
 
+  tarantool:
+    image: tarantool/tarantool:3.1.0
+    container_name: tarantool
+    ports:
+      - 3301:3301
+    volumes:
+      - ./06-in-memory-db/tarantool/conf/tarantool_init.lua:/opt/tarantool/init.lua
+      - tarantool:/var/lib/tarantool
+
   backend-service:
-    image: highload-backend-service:1.6.0
+    image: highload-backend-service:1.7.0
     container_name: backend-service
     build:
       context: .
@@ -127,6 +136,7 @@ services:
       - sharding-manager
       - sharding-worker-1
       - sharding-worker-2
+      - tarantool
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=default
@@ -139,6 +149,8 @@ services:
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_PORT=61613
       - SHARDING_URL=jdbc:postgresql://sharding-master/postgres
+      - TARANTOOL_HOST=tarantool
+      - TARANTOOL_PORT=3301
 volumes:
   master:
   slave:
@@ -147,6 +159,7 @@ volumes:
   rabbitmq:
   sharding-manager:
   healthcheck-volume:
+  tarantool:
 
 networks:
   default:

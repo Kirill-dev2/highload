@@ -12,7 +12,7 @@
 
   <groupId>com.otus</groupId>
   <artifactId>highload</artifactId>
-  <version>1.6.0</version>
+  <version>1.7.0</version>
   <name>highload</name>
 
   <properties>
@@ -69,6 +69,20 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
     </dependency>
+
+    <!--    TODO удалить-->
+    <!-- TARANTOOL -->
+    <dependency>
+      <groupId>ru.shadam</groupId>
+      <artifactId>spring-data-tarantool</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.tarantool</groupId>
+      <artifactId>connector</artifactId>
+      <version>1.9.4</version>
+    </dependency>
+
 
     <!--    MISC-->
     <dependency>

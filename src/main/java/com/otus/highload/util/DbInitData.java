@@ -1,4 +1,4 @@
-package com.otus.highload.service;
+package com.otus.highload.util;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
