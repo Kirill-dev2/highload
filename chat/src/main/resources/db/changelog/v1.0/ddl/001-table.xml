@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+  <changeSet id="1" author="Kirill.Kornakov@com">
+    <!--MESSAGES-->
+    <createTable tableName="messages" remarks="сообщения">
+      <column name="id" type="varchar(36)" remarks="Идентификатор сообщения">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="created" type="timestamp" remarks="Дата время создания">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated" type="timestamp" remarks="Дата время обновления"/>
+      <column name="text" type="varchar">
+        <constraints nullable="false"/>
+      </column>
+      <column name="fromuser" type="varchar(36)"
+        remarks="Идентификатор пользователя кто создал сообщение">
+        <constraints nullable="false"/>
+      </column>
+      <column name="touser" type="varchar(36)"
+        remarks="Идентификатор пользователя кому был создан сообщение">
+        <constraints nullable="false"/>
+      </column>
+      <column name="hash" type="bigint"
+        remarks="Идентификатор для вычисления has_code ">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>
