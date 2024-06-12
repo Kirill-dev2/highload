@@ -36,3 +36,4 @@ build/
 mvnw
 mvnw.cmd
 /logs
+/core/logs

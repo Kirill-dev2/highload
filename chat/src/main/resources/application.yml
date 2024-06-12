@@ -1,0 +1,34 @@
+logging:
+  level:
+    ROOT: INFO
+    com.otus.highload: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
+  file:
+    name: ./logs/chat.log
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: chat
+  profiles:
+    active: default
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SHARDING_URL:jdbc:postgresql://127.0.0.1:5435/postgres}
+    username: postgres
+    password: mysecretpassword
+    hikari:
+      schema: chat
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: chatHikariPool
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+    default-schema: ${spring.datasource.hikari.schema}
+    liquibase-schema: ${spring.datasource.hikari.schema}
