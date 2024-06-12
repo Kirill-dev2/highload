@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "com.otus.highload.controller";
+option java_outer_classname = "ApiMessages";
+
+message DialogMessage {
+  string fromUser = 1;
+  string toUser = 2;
+  string text = 3;
+}
+
+message DialogMessages {
+  repeated DialogMessage messages = 1;
+}
+
+message DialogMessageText {
+  string text = 1;
+}

@@ -2,6 +2,9 @@ package org.otus.highload.core.controller;
 
 import com.otus.highload.controller.request.DialogMessageText;
 import com.otus.highload.controller.response.DialogMessage;
+
+import com.otus.highload.controller.ApiMessages;
+//import com.otus.highload.controller.ApiMessages.DialogMessageText;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +32,15 @@ public class DialogController {
       @Validated @NotBlank @PathVariable("user_id") String toUser,
       @Validated @RequestBody DialogMessageText messageText) {
     var userId = AuthenticationUtil.extractUserId();
-    return dialogClient.sendMessageToUser(userId, toUser, messageText);
+    var text = ApiMessages.DialogMessageText.newBuilder().setText(messageText.text()).build();
+    return dialogClient.sendMessageToUser(
+        userId, toUser, text);
   }
 
   @GetMapping("/{user_id}/list")
-  public List<DialogMessage> getMessages(@Validated @PathVariable("user_id") String fromUser) {
+  public String getMessages(@Validated @PathVariable("user_id") String fromUser) {
     var toUser = AuthenticationUtil.extractUserId();
-    return dialogClient.getMessages(toUser, fromUser);
+    var messages = dialogClient.getMessages(toUser, fromUser);
+    return messages.toString();
   }
 }
