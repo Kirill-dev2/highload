@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/dialog")
+@RequestMapping("/v1/dialog")
 @RequiredArgsConstructor
 public class DialogController {
   private final MessageService messageService;

@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
     url = "${dialog-service.url}",
     configuration = HeaderConfig.class)
 public interface DialogClient {
-  @PostMapping(value = "/dialog/{user_id}/send")
+  @PostMapping(value = "/v1/dialog/{user_id}/send")
   ResponseEntity<String> sendMessageToUser(
       @RequestHeader("X-Auth-User") String userId,
       @PathVariable("user_id") String toUser,
       @RequestBody DialogMessageText messageText);
 
-  @GetMapping(value = "/dialog/{user_id}/list")
+  @GetMapping(value = "/v1/dialog/{user_id}/list")
   List<DialogMessage> getMessages(
       @RequestHeader("X-Auth-User") String toUser, @PathVariable("user_id") String fromUser);
 }
