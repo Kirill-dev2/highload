@@ -41,6 +41,7 @@ public class UserController {
   public List<UserProfile> searchBy(
       @Validated @NotBlank @RequestParam("first_name") String firstName,
       @NotBlank @RequestParam("last_name") String secondName) {
+    log.info("start search by param {} {}", firstName, secondName);
     var users = userService.findBy(firstName, secondName);
     var stream = users.size() > 500 ? users.parallelStream() : users.stream();
     return stream.map(this::fillUserProfile).toList();
