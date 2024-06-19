@@ -8,7 +8,7 @@ logging:
     name: ./logs/core.log
 
 server:
-  port: 8080
+  port: 8082
 
 spring:
   application:
@@ -29,7 +29,7 @@ spring:
       pool-name: masterHikariPool
     slave:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: ${DB_SLAVE_URL:jdbc:postgresql://127.0.0.1:5433/postgres}
+      jdbc-url: ${DB_SLAVE_URL:jdbc:postgresql://127.0.0.1:5488/postgres}
       username: postgres
       password: mysecretpassword
       schema: ${spring.datasource.hikari.schema}
