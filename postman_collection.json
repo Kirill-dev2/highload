@@ -31,13 +31,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "af9ec928-f0b9-4293-81fb-615e2c1b2ebd",
-						"type": "text"
+						"value": "af9ec928-f0b9-4293-81fb-615e2c1b2ebd"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"asd1@mail.com\",\r\n  \"password\": \"asd123\"\r\n}\r\n",
+					"raw": "{\r\n  \"email\": \"asd@mail.com\",\r\n  \"password\": \"asd\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -276,6 +275,21 @@
 					}
 				},
 				"url": "http://localhost:8080/dialog/01578a45-bd2a-4971-857a-7a84c890714c/send"
+			},
+			"response": []
+		},
+		{
+			"name": "dialog/read/{message_id}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2YzcyODFiZi00MGZlLTQ5MWItYmNhMi00ODlmNGVjOWI4MzYiLCJzdWIiOiI5N2E5ZDdhNi03MTMxLTQ0YzgtOGU0MS1jZDI4YjZlNmFiNzQiLCJpYXQiOjE3MTk3NzU3MjQsImV4cCI6MTcxOTc3OTMyNCwidXNlci1pZCI6Ijk3YTlkN2E2LTcxMzEtNDRjOC04ZTQxLWNkMjhiNmU2YWI3NCIsInJlbW90ZS1hZGRyZXNzIjoiMDowOjA6MDowOjA6MDoxIn0.cnkSee-5lvpkHmwPi49Z3zzF5msf1vaejYiQ68eHCk8",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/dialog/read/7bda794a-00ca-4392-8ade-fed64eceb424/"
 			},
 			"response": []
 		}

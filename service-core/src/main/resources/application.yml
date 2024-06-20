@@ -1,0 +1,62 @@
+logging:
+  level:
+    ROOT: INFO
+    com.otus.highload: INFO
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
+  file:
+    name: ./logs/core.log
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: core
+  profiles:
+    active: default
+  datasource:
+    hikari:
+      schema: social_network
+    master:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ${DB_MASTER_URL:jdbc:postgresql://127.0.0.1:5432/postgres}
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: masterHikariPool
+    slave:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ${DB_SLAVE_URL:jdbc:postgresql://127.0.0.1:5488/postgres}
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: slaveHikariPool
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+    default-schema: ${spring.datasource.hikari.schema}
+    liquibase-schema: ${spring.datasource.hikari.schema}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    port: ${RABBITMQ_PORT:61613}
+
+dialog-service:
+  url: ${DIALOG_SERVICE:127.0.0.1:8081}
+
+counter-service:
+  url: ${COUNTER_SERVICE:127.0.0.1:8084}
+
+token:
+  signing:
+    public-key: af9ec928-f0b9-4293-81fb-615e2c1b2ebd

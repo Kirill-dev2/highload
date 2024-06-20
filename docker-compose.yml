@@ -1,5 +1,26 @@
 version: '3.8'
 services:
+  db-counter-master:
+    image: postgres:16-alpine
+    container_name: db-counter-master
+    volumes:
+      - db-counter-master:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5536:5432"
+  db-counter-slave:
+    image: postgres:16-alpine
+    container_name: db-counter-slave
+    volumes:
+      - db-counter-slave:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5537:5432"
+
   db-master:
     image: postgres:16-alpine
     container_name: db-master
@@ -128,12 +149,28 @@ services:
       - ./06-in-memory-db/tarantool/conf/tarantool_init.lua:/opt/tarantool/init.lua
       - tarantool:/var/lib/tarantool
 
-  chat-service:
-    image: highload-chat:1.0.0
-    container_name: highload-chat
+  counter-service:
+    image: highload-counter:1.0.1
+    container_name: counter-service
     build:
       context: .
-      dockerfile: chat/Dockerfile
+      dockerfile: service-counter/Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - db-counter-master
+      - db-counter-slave
+    environment:
+      - SERVER_PORT=8084
+      - DB_COUNTER_MASTER_URL=jdbc:postgresql://db-counter-master/postgres
+      - DB_COUNTER_SLAVE_URL=jdbc:postgresql://db-counter-master/postgres
+
+  chat-service:
+    image: highload-chat:1.0.2
+    container_name: chat-service
+    build:
+      context: .
+      dockerfile: service-chat/Dockerfile
     ports:
       - "8081:8081"
     depends_on:
@@ -141,16 +178,17 @@ services:
       - sharding-manager
       - sharding-worker-1
       - sharding-worker-2
+      - counter-service
     environment:
       - SERVER_PORT=8081
       - SHARDING_URL=jdbc:postgresql://sharding-master/postgres
 
   core-service-1:
-    image: highload-core:1.0.1
-    container_name: core-1
+    image: highload-core:1.0.3
+    container_name: core-service-1
     build:
       context: .
-      dockerfile: core/Dockerfile
+      dockerfile: service-core/Dockerfile
     ports:
       - "8082:8082"
     depends_on:
@@ -160,6 +198,7 @@ services:
       - redis
       - rabbitmq
       - chat-service
+      - counter-service
     environment:
       - SERVER_PORT=8082
       - SPRING_PROFILES_ACTIVE=default
@@ -172,13 +211,14 @@ services:
       - RABBITMQ_PASSWORD=guest
       - RABBITMQ_PORT=61613
       - DIALOG_SERVICE=chat-service:8081
+      - COUNTER_SERVICE=counter-service:8084
 
   core-service-2:
-    image: highload-core:1.0.1
-    container_name: core-2
+    image: highload-core:1.0.3
+    container_name: core-service-2
     build:
       context: .
-      dockerfile: core/Dockerfile
+      dockerfile: service-core/Dockerfile
     ports:
       - "8083:8083"
     depends_on:
@@ -188,6 +228,7 @@ services:
       - redis
       - rabbitmq
       - chat-service
+      - counter-service
     environment:
       - SERVER_PORT=8083
       - SPRING_PROFILES_ACTIVE=default
@@ -224,6 +265,8 @@ volumes:
   sharding-manager:
   healthcheck-volume:
   tarantool:
+  db-counter-master:
+  db-counter-slave:
 
 networks:
   default:

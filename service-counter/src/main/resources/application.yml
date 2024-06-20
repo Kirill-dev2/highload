@@ -1,0 +1,45 @@
+logging:
+  level:
+    ROOT: INFO
+    com.otus.highload: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %class{0}:%line - %msg%n"
+  file:
+    name: ./logs/counter.log
+
+server:
+  port: 8084
+
+spring:
+  application:
+    name: counter
+  profiles:
+    active: default
+  datasource:
+    hikari:
+      schema: counter
+    master:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ${DB_COUNTER_MASTER_URL:jdbc:postgresql://127.0.0.1:5536/postgres}
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: masterHikariPool
+    slave:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ${DB_COUNTER_SLAVE_URL:jdbc:postgresql://127.0.0.1:5537/postgres}
+      username: postgres
+      password: mysecretpassword
+      schema: ${spring.datasource.hikari.schema}
+      maximum-pool-size: 10
+      minimum-idle: 5
+      pool-name: slaveHikariPool
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+    default-schema: ${spring.datasource.hikari.schema}
+    liquibase-schema: ${spring.datasource.hikari.schema}
