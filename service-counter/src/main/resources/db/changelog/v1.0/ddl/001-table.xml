@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+  <changeSet id="1" author="Kirill.Kornakov@com">
+
+    <!--COUNTERS-->
+    <createTable tableName="counters" remarks="счетчик">
+      <column name="id" type="varchar(36)" remarks="Идентификатор">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="fromuser" type="varchar(36)"
+        remarks="Идентификатор пользователя кто создал сообщение">
+        <constraints nullable="false"/>
+      </column>
+      <column name="touser" type="varchar(36)"
+        remarks="Идентификатор пользователя кому был создан сообщение">
+        <constraints nullable="false"/>
+      </column>
+      <column name="workflowstatus" type="smallint" remarks="Статус"/>
+    </createTable>
+
+    <createIndex indexName="counter_status" tableName="counters">
+      <column name="workflowstatus"/>
+    </createIndex>
+  </changeSet>
+</databaseChangeLog>
