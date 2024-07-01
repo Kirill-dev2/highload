@@ -28,7 +28,7 @@ hot_standby_feedback = on
 5) Добавляем запись в _pg_hba.conf_ адрес сети, созданной из _docker-compose_.
     1) Находим адрес сети: `docker network inspect highload_default | grep Subnet`
     2) Добавляем запись: `host    replication     replicator       192.168.192.0/20          md5` или `host    replication     all             192.168.192.0/20        trust`
-    3) Перезапускаем мастер: `docker restart db-master`
+    3) Перезапускаем мастер: `docker restart db-counter-master`
 
 ### Настройка на слейве
 
