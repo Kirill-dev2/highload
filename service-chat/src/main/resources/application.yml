@@ -11,6 +11,27 @@ logging:
 server:
   port: 8081
 
+management:
+  endpoint:
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    jmx:
+      exposure:
+        include: "*"
+  jmx:
+    metrics:
+      export:
+        domain: metrics
+        enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 spring:
   application:
     name: chat

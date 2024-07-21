@@ -5,6 +5,7 @@ import com.otus.highload.chat.service.MessageService;
 import com.otus.highload.controller.dictionary.WorkflowStatuses;
 import com.otus.highload.controller.request.DialogMessageText;
 import com.otus.highload.controller.response.DialogMessage;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DialogController {
   private final MessageService messageService;
 
+  @Timed
   @PostMapping("/{user_id}/send")
   public ResponseEntity<String> sendMessageToUser(
       @RequestHeader("X-Auth-User") String userId,
@@ -38,6 +40,7 @@ public class DialogController {
     return ResponseEntity.ok("Успешно отправлено сообщение");
   }
 
+  @Timed
   @PutMapping("/update/{id}/{status}")
   public ResponseEntity<String> update(
       @Validated @NotBlank @PathVariable("id") String messageID,
@@ -46,6 +49,7 @@ public class DialogController {
     return ResponseEntity.ok("Статус изменен: " + status.name());
   }
 
+  @Timed
   @PutMapping("/update/{status}")
   public ResponseEntity<String> batchUpdate(
       @Validated @PathVariable("status") WorkflowStatuses status, @RequestBody Set<String> ids) {
@@ -53,6 +57,7 @@ public class DialogController {
     return ResponseEntity.ok("Статус изменен: " + status.name());
   }
 
+  @Timed
   @GetMapping("/{user_id}/list")
   public List<DialogMessage> getMessages(
       @RequestHeader("X-Auth-User") String toUser,
